@@ -9,6 +9,7 @@
 	<meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1">
 	<meta name="description" content="RETROUVEZ LE CADEAU SAMBE." />
 	<link href='https://fonts.googleapis.com/css?family=Orbitron' rel='stylesheet' type='text/css'>
+	<link href='https://fonts.googleapis.com/css?family=Poppins' rel='stylesheet' type='text/css'>
 	<script type="text/javascript" src="./utile.js"></script>
 
 
@@ -27,11 +28,21 @@
 
 		* {
 		    font-family: 'Poppins', sans-serif;
-		    font-size: 20px;
+		}
+
+		button {
+			font-size: 2vw;
+			background-color: #8ea3cc;
+			padding: 10px;
+			border-radius: 10px;
 		}
 
 		.grand {
-			font-size: 5vw;
+			font-size: 40px;
+			text-align: center;
+		}
+		.normal {
+			font-size: 25px;
 			text-align: center;
 		}
 
@@ -45,21 +56,239 @@
 
 		.fond-blanc {
 			background: rgb(255 255 255 / 50%);
+			padding: 10px;
 		}
 
 		.clock {
 			font-family: 'Orbitron', sans-serif;
 			text-align: center;
 			color: red;
+			width: 100%;
+			position: fixed;
 		}
 
+		#new-text {
+			display: none;
+		}
+
+		rouge {
+			color: red;
+		}
+
+		#main-menu > span {
+		    border-style: groove;
+		    margin: 10px;
+		    display: flex;
+		    width: 250px;
+		    height: 250px;
+		    justify-content: center;
+		    align-items: center;
+		    text-align: center;
+		    padding: 20px;
+		}
+
+		#main-menu > span:hover {
+			cursor: pointer;
+			filter: brightness(150%);
+		}
+
+		.desact {
+			background: rgba(151, 151, 151, 0.5);
+			color: #2c2c2c;
+		}
+
+		.bleu {
+			background: rgba(25, 91, 217, 0.5);
+		}
+
+		.vert {
+			background: rgba(32, 145, 1, 0.5);
+		}
+
+		.jaune {
+			background: rgba(255, 225, 107, 0.5);
+		}
+
+		#indication {
+			display: none;
+			width: 100%;
+			position: fixed;
+			top: 6vh;
+			text-align: center;
+			border-style: outset;
+		}
+
+		.home {
+		    width: 50px;
+		    height: 50px;
+		    position: fixed;
+		    right: 0;
+		    z-index: 3;
+		}
+
+		.mini-home {
+		    width: 20px;
+		    height: 20px;
+
+		}
+
+		.home:hover {
+			filter: brightness(150%);
+			cursor: pointer;
+		}
+
+		#carre {
+			background-color:red;
+		    width: 150px;
+		    height: 150px;
+		}
+
+		#cercle {
+			background-color:red;
+			border-radius: 50%;
+			width: 150px;
+			height: 150px;
+		}
+
+		#triangle {
+			display : inline-block;
+			height : 0;
+			width : 0;
+			border-right : 75px solid transparent;
+			border-bottom : 130px solid red;
+			border-left : 75px solid transparent;
+		}
+
+
+	    #diamond {
+	      width: 0;
+	      height: 0;
+	      border: 87px solid transparent;
+	      border-bottom-color: red;
+	      position: relative;
+	      top: -87px;
+	    }
+	    #diamond:after {
+	      content: '';
+	      position: absolute;
+	      left: -87px;
+	      top: 87px;
+	      width: 0;
+	      height: 0;
+	      border: 87px solid transparent;
+	      border-top-color: red;
+	    }
+
+
+		#conteneur {
+			margin: 10px;
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			text-align: center;
+			padding: 20px;
+		}
+
+		#conteneur > div {
+			margin: 20px;
+		}
+
+		#conteneur > div:hover {
+			filter: contrast(50%);
+			cursor: pointer;
+		}
+
+
+		.ma_fenetre {
+		    display: block;
+		    position: fixed;
+		    top: 15%;
+		    left: 15%;
+		    width: 70%;
+		    height: 80%;
+		    z-index: 3;
+		    opacity: 100%;
+		    border-radius: 6px;
+		    overflow: hidden;
+		    box-shadow: 1px 0px 10px 1px;
+		    background-color: #dbdbdb;
+		}
+
+
+		#entete-fenetre {
+			float: right;
+		}
+
+		.bye_prev {
+		    width: 30px;
+		    height: 30px;
+		    right: 0px;
+		    top: 0px;
+		    cursor: pointer;
+		    position: absolute;
+		    z-index: 3;
+		}
+
+
+		.titre_fenetre {
+		    text-align: center;
+		    font-weight: bold;
+		    width: 100%;
+		    font-size: 30px;
+		}
+
+		.responsive-container {
+		    position: relative;
+		    padding-bottom: 56.25%;
+		    padding-top: 30px;
+		    overflow: hidden;
+		    width: 100%;
+		    border-width: 0;
+		}
+
+		.responsive-container iframe, .responsive-container object, .responsive-container embed {
+		    position: absolute;
+		    top: 0;
+		    left: 0;
+		    width: 100%;
+		    height: 100%;
+		}
+
+		.lettre_E {
+			font-size: 100px;
+			left: -25px;
+			position: relative;
+			top: -10px;
+		}
+		.lettre_F {
+			font-size: 100px;
+			left: -25px;
+			position: relative;
+			top: 10px;
+			z-index: 2;
+		}
+
+		
 	</style>
 
-
-    <div class="clock" id="timer"></div>
+	<div id="tete">
+	    <div class="grand clock" id="timer"></div>
+	    <div id="indication" class="fond-blanc"></div>
+    </div>
 
 	<div class="center-screen">
+		<!--
 		<span class="grand fond-blanc">SITE EN COURS DE CONSTRUCTION... MERCI DE REVENIR PLUS TARD!</span>
+		-->
+
+		<span id="text-principal" class="grand fond-blanc">
+			<div>Bravo !</div>
+			<div>Etape 1 réussie. En même temps, ce n'était pas très difficile...</div>
+			<button id="begin" onclick="aller_etape(1)">COMMENCER</button>
+		</span>
+
+		<span id="new-text" class="normal"></span>
+
 	</div>
 
 </body>

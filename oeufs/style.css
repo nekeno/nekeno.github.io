@@ -1,0 +1,15 @@
+@import url('https://fonts.googleapis.com/css?family=Poppins:300i&display=swap');
+
+* {
+    box-sizing: border-box;
+}  
+body {
+    font-family: 'Poppins', sans-serif;
+    justify-content: center;
+    text-align: center;
+}
+
+input {
+    margin-left: 1rem;
+    font-family: 'Poppins';
+}

@@ -215,11 +215,17 @@
         document.getElementById('check_puzzle').addEventListener("click",  function check_answer(){
             rep_puzzle = document.getElementById('rep_puzzle')
             if(rep_puzzle.value.toLowerCase() === 'u'){
-                alert("Exact, c'est bien la lettre U. Easy pizi.")
+                alert("✔️ Exact, c'est bien la lettre U.")
+
+                window.top.postMessage('fermer-carre','*')
+
+
             }else if(rep_puzzle.value.toLowerCase() === 'e'){
-                alert("C'est écrit AUTRE que 'e', t'es con ou quoi?.")
+                alert("❌ C'est écrit AUTRE que 'e', t'es con ou quoi?")
+            }else if(rep_puzzle.value.toLowerCase() === ''){
+                alert("❌ Pourquoi tu saisis du vide?")
             }else{
-                alert("Bah non fréro, réfléchis encore un peu.")            
+                alert("❌ Bah non fréro, réfléchis encore un peu.")            
             }
         })
 
@@ -239,7 +245,12 @@
         }
 
         let data = ev.dataTransfer.getData('text');
-        ev.target.appendChild(doc.getElementById(data));
+        try{
+            ev.target.appendChild(doc.getElementById(data));
+        }catch(e){
+            console.error(e)
+        }
+        
     }
     
     function setupStyles() {

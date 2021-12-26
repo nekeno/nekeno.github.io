@@ -4,8 +4,11 @@
     box-sizing: border-box;
 }  
 body {
-   /* background-color: pink; */
+
     font-family: 'Poppins', sans-serif;
+    display: flex;
+    justify-content: center;
+    margin: 0;
 }
 input {
     margin-left: 1rem;
