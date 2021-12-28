@@ -1,9 +1,10 @@
+var timer_en_cours = false
+
 function startTimer(duration_en_minutes, display) {
 
     //si la valeur stockée est inférieure à ce qui est affichée -> on change l'affichage
     var valeur_anterieure = recuperer('timer_en_secondes',true)
-    //console.log({valeur_anterieure})
-
+    
     if(valeur_anterieure > 0 && valeur_anterieure !== 9999999999 && valeur_anterieure < (duration_en_minutes *60)){
         var duration = valeur_anterieure
     }else {
@@ -17,22 +18,36 @@ function startTimer(duration_en_minutes, display) {
     //console.log('\n')
     //console.log({timer})
 
-    setInterval(function () {
-        minutes = parseInt(timer / 60, 10)
-        seconds = parseInt(timer % 60, 10);
+    if(!timer_en_cours){
 
-        minutes = minutes < 10 ? "0" + minutes : minutes;
-        seconds = seconds < 10 ? "0" + seconds : seconds;
+    	timer_en_cours = true
+	    setInterval(function () {
 
-        //dans tous les cas, on stocke et on met à jour
-        stocker('timer_en_secondes',minutes*60+seconds)
-    	display.innerText = minutes + ":" + seconds;
+	    	/*
+	    	console.log("on est dans le set interval !")
+	    	console.log({valeur_anterieure})
+	    	*/
 
 
-        if (--timer < 0) {
-            timer = 0;
-        }
-    }, 1000);
+	        minutes = parseInt(timer / 60, 10)
+	        seconds = parseInt(timer % 60, 10);
+
+	        minutes = minutes < 10 ? "0" + minutes : minutes;
+	        seconds = seconds < 10 ? "0" + seconds : seconds;
+
+	        //dans tous les cas, on stocke et on met à jour SSI cette nouvelle valeur est inf à celle précédente
+	        if(valeur_anterieure > 0 || valeur_anterieure === 9999999999 || valeur_anterieure < (duration_en_minutes *60)){
+		        stocker('timer_en_secondes',minutes*60+seconds)
+		    	display.innerText = minutes + ":" + seconds;
+	    	}
+
+
+	        if (--timer < 0) {
+	            timer = 0;
+	        }
+	    }, 1000);
+    }
+
 }
 
 function commencer_timer(nouveau){
@@ -80,7 +95,7 @@ function menu_principal(classe2,classe3){
 
 
 function titre(contenu){
-	return `<strong class="grand">DECOUVRE LE PENDU</strong><br>`
+	return `<strong class="grand">`+contenu+`</strong><br>`
 }
 
 function texte_pendu(){
@@ -107,14 +122,14 @@ function aller_accueil(sans_init_compteur,ne_pas_relancer_timer){
 }
 
 function texte_menu_principal(){
-	return `Vous pourrez revenir à ce menu principal en cliquant sur le bouton <img src="home.png" class="mini-home">, qui se situera en haut à droite.`
+	return `Tu peux revenir à ce menu principal en cliquant sur le bouton <img src="home.png" class="mini-home">, qui se situera en haut à droite.`
 }
 
 
 
 
 //etape 3
-function charger_pendu(){
+function charger_pendu(sans_alerte){
 
 	var nb_resolues = 0
 
@@ -146,8 +161,10 @@ function charger_pendu(){
     	nb_resolues += 1
     }
 
+    //console.log({sans_alerte})
+
     if(nb_resolues === 4){
-    	alert('✔️ Il y a NEUF lettres dans le pendu.')
+    	if(!sans_alerte) alert('✔️ Il y a NEUF lettres dans le pendu.')
     	stocker("class2",true)
     	enlever_accueil()
     	aller_etape(2,true)
@@ -167,10 +184,10 @@ function texte_shapes(){
 	return `
 
 		<div id="conteneur">
-			<div onclick="gerer_shape('○ Digicode ○','./digicode/index.html','cercle', 'N')" id="cercle"></div>
-			<div onclick="gerer_shape('▲ Prononciation ▲','./oeufs/index.html','triangle','E')" id="triangle"></div>
-			<div onclick="gerer_shape('■ Puzzle ■','./puzzle/index.html','carre', 'U')" id="carre"></div>
-			<div onclick="gerer_shape('♦ Alphabet ♦','./alphabet/index.html','diamond', 'F')" id="diamond"></div>
+			<div onclick="gerer_enigme('○ Digicode ○','./digicode/index.html','cercle', 'N')" id="cercle"></div>
+			<div onclick="gerer_enigme('▲ Prononciation ▲','./oeufs/index.html','triangle','E')" id="triangle"></div>
+			<div onclick="gerer_enigme('■ Puzzle ■','./puzzle/index.html','carre', 'U')" id="carre"></div>
+			<div onclick="gerer_enigme('♦ Alphabet ♦','./alphabet/index.html','diamond', 'F')" id="diamond"></div>
 		</div>
 
 	`
@@ -178,10 +195,26 @@ function texte_shapes(){
 
 }
 
-function gerer_shape(titre,lien,nom_enigme, resultat){
+var indice_phrase = -1
+function phrase_enigme_resolue(){
+	indice_phrase = indice_phrase  +1
+
+	var phrases = ["🥶 Cette énigme est déjà résolue.",
+					"🤔 Pourquoi tu veux revenir à une énigme déjà faite ?",
+					"😝 Plus besoin de revenir ici akhy.",
+					"😄 Une énigme ne se résout qu'une seule fois.", 
+					"🤨 T'es nostalgique ou quoi?",
+					"😏 Bon allez tu fais pitié, je t'épargne cette énigme.",
+					"🙄 Ca sert à rien de recliquer, tu referas pas l'énigme."]
+
+	indice_phrase = indice_phrase%phrases.length
+	return phrases[indice_phrase];
+}
+
+function gerer_enigme(titre,lien,nom_enigme, resultat){
 	var enigmes_resolues = recuperer('enigmes_resolues')
 	if(enigmes_resolues.includes(nom_enigme)){
-		alert("Cette énigme est déjà résolue. La réponse que vous avez trouvée: " + resultat)
+		alert(phrase_enigme_resolue()+ " La réponse que tu avais trouvée : " + resultat)
 	}else{
 		creer_fenetre(titre,lien)
 	}
@@ -218,6 +251,97 @@ function creer_fenetre(titre,lien_html){
 }
 
 
+
+function game_1(){
+	alert("game 1")
+
+}
+
+function game_2(){
+	alert("game 2")
+}
+
+
+
+function game_3(){
+	//alert("game 3")
+	gerer_enigme("Mini-jeu n°3","./memo/index.html","memo", "B")
+}
+
+function game_4(){
+	alert("game 4")
+}
+
+
+
+function game_5(){
+	alert("👀 Est-ce que tu as lu le numéro de cette case? 👀")
+}
+
+
+function game_6(){
+	alert("game 6")
+}
+
+
+function game_7(){
+	alert("game 7")
+}
+
+function game_8(){
+	alert("game 8")
+}
+
+function game_9(){
+	alert("game 9")
+}
+
+function texte_cases(){
+	var resultat_cases = ""
+	for (i = 1 ;i <= 9; i++){
+		mon_index = i===5 ? 2 : i
+		resultat_cases += `<span class="case" id="case`+i+`" ondrop="drop(event,'case',true)" ondragover="allowDrop(event)" onclick="game_`+i+`()">
+								<strong draggable="false" class="tip visible">
+									<strong class="invisible">`+mon_index+`</strong>
+								</strong>
+							</span>
+
+							`
+
+		if(i===4) resultat_cases += '<span class="case vide"></span>'
+	}
+
+	return `<div class="normal" style="display: flex;">`
+
+				+ resultat_cases +
+
+			`</div>`
+}
+
+function demander_valider_drop(event){
+	var indice = event.target.innerText
+	var confirmer = confirm("❓ Tu es sûr de vouloir placer cette lettre au "+indice+" ? Tu ne pourras pas replacer de lettre que dans 3 minutes.")
+	if(confirmer){
+		//console.log(event.target)
+		drop(event,'case')
+	}else{
+		//alert('Drop annulé.')
+	}
+}
+
+
+function texte_lettres(){
+	var resultat = `<div  class='container_alphabet' ondrop="drop(event,'container_alphabet')" ondragover="allowDrop(event)">`
+	var alphabet_initial = 'SXZBRZDYEIQB'
+	var alphabet = alphabet_initial.split('').sort(function(){return 0.5-Math.random()}).join('');
+	for (let i in alphabet) {
+		resultat += '<span draggable="true" ondragstart="drag(event)" id="'+alphabet[i]+i+'" value="'+alphabet[i]+'" class="lettre_alphabet" >'+alphabet[i]+'</span>'
+	}
+
+	resultat +=  '</div>'
+	return resultat
+}
+
 //etape 4
 function charger_multi(){
 
@@ -225,7 +349,8 @@ function charger_multi(){
 
 	if(activ){
 		changer_indication(texte_multi())
-		mettre_ce_texte("1 2 3 4 5 6 7 8")
+		mettre_ce_texte(texte_cases()+texte_lettres())
+		numeros_au_survol()
 		rajouter_accueil()
 	}else{
 		enlever_accueil()
@@ -235,12 +360,27 @@ function charger_multi(){
 }
 
 
-function texte_multi(){
-	return titre('MULTI-JEUX') + `1 jeu résolu = 1 lettre.`
+function numeros_au_survol(){
+	$('.tip').hover(mouseEnter, mouseLeave);
+	function mouseEnter(e){
+		e.target.firstChild.className = ''
+	}
+
+	function mouseLeave(e){
+		$('.tip > strong').addClass('invisible')
+	};
+
+
+	$('body').hover(mouseLeave)
 }
 
 
-//etape 5
+function texte_multi(){
+	return titre('MULTI-JEUX') + `1 case = 1 jeu.<br>1 jeu résolu = 1 lettre.<br>Tu peux placer une lettre toutes les `+(TEMPS_ATTENTE_EN_SECONDES)+` secondes.`
+}
+
+
+//etape 5 (todo)
 function charger_finale(){
 
 	var activ = document.getElementById('etape5').className !== 'desact'
@@ -285,7 +425,7 @@ function rajouter_accueil(){
 	return html
 }
 
-function aller_etape(numero_etape,sans_init_compteur){
+function aller_etape(numero_etape,sans_init_compteur,sans_alerte){
 	enlever_accueil()
 	var retour = false
 
@@ -306,7 +446,7 @@ function aller_etape(numero_etape,sans_init_compteur){
 	
 	//pendu à 4 énigmes
 	}else if(numero_etape === 3){
-		retour = charger_pendu()
+		retour = charger_pendu(sans_alerte)
 		
 
 	//8 énigmes multi
@@ -345,7 +485,7 @@ function init(){
 	//console.log({numero_etape})
 	if(numero_etape){
 		for(i=1;i<=numero_etape;i++){
-			aller_etape(i,true)	
+			aller_etape(i,true,true)	
 		}
 		
 	}

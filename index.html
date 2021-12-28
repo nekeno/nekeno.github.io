@@ -11,6 +11,7 @@
 	<link href='https://fonts.googleapis.com/css?family=Orbitron' rel='stylesheet' type='text/css'>
 	<link href='https://fonts.googleapis.com/css?family=Poppins' rel='stylesheet' type='text/css'>
 	<script type="text/javascript" src="./utile.js"></script>
+	<script src="https://code.jquery.com/jquery-3.6.0.slim.min.js" integrity="sha256-u7e5khyithlIdTpu22PHhENmPcRdFiHRjhAuHcs05RI=" crossorigin="anonymous"></script>
 
 
 </head> 
@@ -65,6 +66,8 @@
 			color: red;
 			width: 100%;
 			position: fixed;
+			z-index: 3;
+			text-shadow: #004fb5 1px 0 10px;
 		}
 
 		#new-text {
@@ -119,11 +122,11 @@
 		}
 
 		.home {
-		    width: 50px;
-		    height: 50px;
+		    width: 40px;
+		    height: 40px;
 		    position: fixed;
 		    right: 0;
-		    z-index: 3;
+		    z-index: 5;
 		}
 
 		.mini-home {
@@ -267,6 +270,73 @@
 			top: 10px;
 			z-index: 2;
 		}
+
+		.case {
+		    width: 80px;
+		    height: 80px;
+		    display: flex;
+		    border-style: inset;
+		    border-bottom-width: 10px;
+		    content: '1';
+		    margin: 5px;
+		    background-color: white;
+		}
+
+		.case:hover {
+			cursor: pointer;
+		}
+
+		.vide {
+		    border-style: unset;
+		}
+
+		.tip {
+			position: fixed;
+			text-shadow: #000 1px 0 10px;
+			color: white;
+			text-align: right;
+			height: min-content;
+		}
+
+		.invisible {
+			/*display: none;*/
+		}
+
+		.visible {
+			display: block;
+		}
+
+		.lettre_alphabet {
+			cursor: pointer;
+			font-size: 80px;
+			font-weight: bold;
+			text-shadow:       
+			    -1px 1px 0 #aaa,
+			    -2px 2px 0 #a8a8a8,
+			    -3px 3px 0 #bbb,
+			    -4px 4px 0 #b8b8b8,
+			    -5px 5px 0 #ccc,
+			    -6px 6px 0 #c8c8c8,
+			    -7px 7px 0 #ddd;
+			padding: 5px;
+			width: 75px;
+			
+			position: relative;
+			top: 0;
+			left: 0;
+			font-size: 55px;
+			height: min-content;
+			display: inline;
+		}
+
+		.lettre_alphabet:hover {
+		    color: #4f4e4e;
+		}
+
+		.container_alphabet {
+			border-style: groove;
+		}
+
 
 		
 	</style>
