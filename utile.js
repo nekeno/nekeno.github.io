@@ -1,4 +1,4 @@
-const TEMPS_ATTENTE_EN_SECONDES = 60
+const TEMPS_ATTENTE_EN_SECONDES = 0
 
 
 function stocker(nom_variable,valeur_variable){
@@ -89,12 +89,39 @@ function drop(ev,nom_classe_dropable) {
 
 	}
 
-	//si on drop dans une case -> enregistrer l'horodateur de drop PUIS les placements faits
+	//save les placements faits
+	valeurs_cases = {}
+	$('.case').each(function(myindex,element){
+		if(element.firstChild){
+			valeurs_cases[element.id] = element.firstChild.innerText || "VIDE"
+		}
+	})
+	
+	//console.log({valeurs_cases})
+	stocker('valeurs_cases',JSON.stringify(valeurs_cases))
+
+
+
+	//si on drop dans une case -> enregistrer l'horodateur de drop + vérifier que tout est ok
 	if(nom_classe_dropable==='case'){
 		stocker('horodateur_drop', Date.now())	
-		
+		verifier_tout()
+
+
 	} 
 
-
   
+}
+
+function verifier_tout(){
+	if(verifier_cases()){
+		setTimeout(function(){
+			alert("👏PENDU RESOLU👏 Il reste une dernière étape...")
+    		stocker("class3",true)
+			aller_etape(2,true)
+		}, 300)
+		
+	}else{
+		enlever("class3")
+	}
 }

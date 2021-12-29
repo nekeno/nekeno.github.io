@@ -164,7 +164,11 @@ function charger_pendu(sans_alerte){
     //console.log({sans_alerte})
 
     if(nb_resolues === 4){
-    	if(!sans_alerte) alert('✔️ Il y a NEUF lettres dans le pendu.')
+    	if(!sans_alerte) {
+    		setTimeout(function(){
+    			alert('✔️ Il y a NEUF lettres dans le pendu.')
+    		},300)
+    	}
     	stocker("class2",true)
     	enlever_accueil()
     	aller_etape(2,true)
@@ -253,7 +257,7 @@ function creer_fenetre(titre,lien_html){
 
 
 function game_1(){
-	alert("game 1")
+	gerer_enigme("Mini-jeu n°1","./anniv/anniv.html","Anniversaires", "X")
 
 }
 
@@ -350,8 +354,10 @@ function charger_multi(){
 	if(activ){
 		changer_indication(texte_multi())
 		mettre_ce_texte(texte_cases()+texte_lettres())
-		numeros_au_survol()
+		placer_les_lettres_deja_mises()
 		rajouter_accueil()
+		verifier_tout()
+
 	}else{
 		enlever_accueil()
 	}
@@ -359,6 +365,61 @@ function charger_multi(){
 	return activ
 }
 
+function placer_les_lettres_deja_mises(){
+
+	var valeurs_cases = recuperer('valeurs_cases')
+	if(valeurs_cases){
+		valeurs_cases = JSON.parse(valeurs_cases)
+	}
+
+	//console.log({valeurs_cases})
+
+	Object.keys(valeurs_cases).forEach(function(la_case){
+		//console.log(la_case);
+		//console.log(valeurs_cases[la_case]);
+		if(valeurs_cases[la_case]!=="VIDE"){
+			$('.container_alphabet>[value="'+valeurs_cases[la_case]+'"]:first').detach().prependTo('#'+la_case);	
+		}
+	})
+
+}
+
+// si on a tout de placé -> vérifier
+function verifier_cases(){
+	var alphabet_initial = "XZBRZYEIQ"
+
+	//on suppose que tout est ok
+	var verif = true
+
+	for (i=1;i<= alphabet_initial.length;i++) {
+
+
+		//pour chaque case, vérifier que la correspondance est OK: si c'est pas le cas, verif devient faux et quitter
+		valeur_case=$('#case'+i+'>.lettre_alphabet').text()
+		//console.log(i + ':' +valeur_case)
+		
+		if(valeur_case!==alphabet_initial[i-1]){
+			verif=false
+			return verif
+		}
+	}
+
+	//renvoyer vrai
+	return verif
+}
+
+//ne jamais appeler car solution
+function tout_resoudre(){
+	$('.container_alphabet>[value="X"]:first').detach().prependTo('#case1');	
+	$('.container_alphabet>[value="Z"]:first').detach().prependTo('#case2');	
+	$('.container_alphabet>[value="B"]:first').detach().prependTo('#case3');	
+	$('.container_alphabet>[value="R"]:first').detach().prependTo('#case4');	
+	$('.container_alphabet>[value="Z"]:first').detach().prependTo('#case5');
+	$('.container_alphabet>[value="Y"]:first').detach().prependTo('#case6');	
+	$('.container_alphabet>[value="E"]:first').detach().prependTo('#case7');	
+	$('.container_alphabet>[value="I"]:first').detach().prependTo('#case8');	
+	$('.container_alphabet>[value="Q"]:first').detach().prependTo('#case9');	
+}
 
 function numeros_au_survol(){
 	$('.tip').hover(mouseEnter, mouseLeave);
@@ -376,7 +437,7 @@ function numeros_au_survol(){
 
 
 function texte_multi(){
-	return titre('MULTI-JEUX') + `1 case = 1 jeu.<br>1 jeu résolu = 1 lettre.<br>Tu peux placer une lettre toutes les `+(TEMPS_ATTENTE_EN_SECONDES)+` secondes.`
+	return titre('MULTI-JEUX') + `1 case = 1 jeu.<br>1 jeu résolu = 1 lettre.<br>Tu peux placer une lettre toutes les `+(TEMPS_ATTENTE_EN_SECONDES)+` secondes.<br>Il ne restera que la famille.`
 }
 
 
@@ -478,6 +539,8 @@ function alerte_si_clic_desac(){
 	)
 }
 
+
+//aller à l'étape qu'il faut à l'ouverture
 function init(){
 
 	//si on a déjà une étape -> y aller
@@ -490,27 +553,12 @@ function init(){
 		
 	}
 
-
-	if(!recuperer('etape_pendu')){
-
-	}else{
-
-	}
-
-
-	if(!recuperer('etape_multi')){
-		
-	}
-
-
-	if(!recuperer('etape_finale')){
-		
-	}
-
-
 	//cerner les messages recus
 	window.onmessage = function(e) {
 	    if (e.data.includes('fermer-')) {
+	    	alert(recuperer("actualiser"))
+	    	stocker("actualiser",true)
+
 	    	nom_enigme = e.data.split('fermer-')[1]
 	        fermer_fenetre();
 
@@ -518,11 +566,17 @@ function init(){
 	        console.log({nom_enigme})
 	        if(!recuperer('enigmes_resolues').includes(',' + nom_enigme+',')) stocker('enigmes_resolues',recuperer('enigmes_resolues') + ',' + nom_enigme + ',')
 
-	        //actualiser en allant à l'étape actuelle
-	    	window.location.href = window.location.href 
+	        //actualiser en allant à l'étape actuelle si on reçoit un message
+	    	if(recuperer("actualiser")){
+			    //on n'actualise plus
+				stocker("actualiser",false)
+	    		location.reload();	
+	    	}
+	    	
 
         	
 	    }
+
 	};
 
 

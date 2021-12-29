@@ -96,8 +96,10 @@ var mem = {
         mem.hCards[idx].classList.add("right");
         mem.last = null;
         if (mem.matches.length == mem.sets * 2) {
-          alert("✔️ C'est pas trop tôt ! Tu as terminé en " + mem.moves + " coups. Pour la peine, je te donne la lettre qu'il te faut : B.");
-          window.top.postMessage('fermer-memo','*')
+          setTimeout(function(){
+            alert("✔️ C'est pas trop tôt ! Tu as terminé en " + mem.moves + " coups. Pour la peine, je te donne la lettre qu'il te faut : B.");
+            window.top.postMessage('fermer-memo','*')
+          }, 300)
           //mem.init();
         }
       }
