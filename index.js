@@ -551,6 +551,20 @@ function alerte_si_clic_desac(){
 //aller à l'étape qu'il faut à l'ouverture
 function init(){
 
+	var inputDate = new Date("12/31/2021");
+	var todaysDate = new Date();
+
+	// c'est la bonne date
+	if(inputDate.setHours(0,0,0,0) == todaysDate.setHours(0,0,0,0)) {
+	    
+
+	//c'est pas la bonne date ET c'est le site en ligne
+	}else if(window.location.href.includes("nekeno")){
+		$("body").remove()
+		alert("❌ Ce n'est pas encore l'heure... ⌛")
+		return false
+	}
+
 	console.log("************* DEBUT INIT ****************")
 	var etape =1;
 
