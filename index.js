@@ -257,7 +257,7 @@ function creer_fenetre(titre,lien_html){
 
 
 function game_1(){
-	gerer_enigme("Mini-jeu n°1","./anniv/anniv.html","Anniversaires", "X")
+	gerer_enigme("Mini-jeu n°1","./anniv/anniv.html","anniv", "X")
 
 }
 
@@ -347,10 +347,11 @@ function texte_lettres(){
 }
 
 //etape 4
+chargee_une_fois = false
 function charger_multi(){
 
 	var activ = document.getElementById('etape4').className !== 'desact'
-
+	console.log({activ})
 	if(activ){
 		changer_indication(texte_multi())
 		mettre_ce_texte(texte_cases()+texte_lettres())
@@ -475,7 +476,7 @@ function enlever_accueil(){
 }
 
 function rajouter_accueil(){
-
+	$("#back-home").remove()
 	var html = `<img id="back-home" src="home.png" onclick="aller_accueil(true,true)" class="home">`
 	var body = document.getElementsByTagName('body')[0] 
 	var bouton_img = document.createElement('div')
@@ -512,7 +513,9 @@ function aller_etape(numero_etape,sans_init_compteur,sans_alerte){
 
 	//8 énigmes multi
 	}else if(numero_etape === 4){
+		console.log("aller dans l'étape 4")
 		retour = charger_multi()
+		console.log("on vient de charger multi, et le numero_etape vaut " + numero_etape)
 
 	//dernière énigme avec le clavier
 	}else if(numero_etape === 5){
@@ -524,7 +527,12 @@ function aller_etape(numero_etape,sans_init_compteur,sans_alerte){
 	}
 
 
-	if(retour) stocker('etape',numero_etape)
+	if(retour){
+		stocker('etape',numero_etape)	
+		console.log("on a stocké l'étape",numero_etape)
+	} 
+
+	return retour
 
 }
 
@@ -543,35 +551,42 @@ function alerte_si_clic_desac(){
 //aller à l'étape qu'il faut à l'ouverture
 function init(){
 
+	console.log("************* DEBUT INIT ****************")
+	var etape =1;
+
 	//si on a déjà une étape -> y aller
 	var numero_etape = recuperer('etape')
 	//console.log({numero_etape})
 	if(numero_etape){
-		for(i=1;i<=numero_etape;i++){
-			aller_etape(i,true,true)	
+		for(etape=1;etape<=numero_etape;etape++){
+			console.log("\n----> go étape" + etape)
+			aller_etape(etape,true,true)	
+			console.log("----> c'était l'étape "+etape+" => NORMALEMENT go étape" + (etape+1) + "\n\n\n")
 		}
 		
 	}
 
+	console.log("************* FIN GO ETAPE NUMERO "+numero_etape+" INIT ****************")
+
+
 	//cerner les messages recus
 	window.onmessage = function(e) {
+
+		console.log("on a recu un message!!!!",e)
 	    if (e.data.includes('fermer-')) {
-	    	alert(recuperer("actualiser"))
-	    	stocker("actualiser",true)
+	        fermer_fenetre();
 
 	    	nom_enigme = e.data.split('fermer-')[1]
-	        fermer_fenetre();
+	    	console.log("on a un msg de l'énigme "+nom_enigme)
 
 	        //stocker l'énigme terminée (si pas déjà le cas)
 	        console.log({nom_enigme})
 	        if(!recuperer('enigmes_resolues').includes(',' + nom_enigme+',')) stocker('enigmes_resolues',recuperer('enigmes_resolues') + ',' + nom_enigme + ',')
 
-	        //actualiser en allant à l'étape actuelle si on reçoit un message
-	    	if(recuperer("actualiser")){
-			    //on n'actualise plus
-				stocker("actualiser",false)
-	    		location.reload();	
-	    	}
+
+    		console.log("!!!! on va actualiser !!!!")
+    		window.location.reload()
+    	
 	    	
 
         	

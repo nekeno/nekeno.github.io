@@ -1,4 +1,4 @@
-const TEMPS_ATTENTE_EN_SECONDES = 0
+const TEMPS_ATTENTE_EN_SECONDES = 30
 
 
 function stocker(nom_variable,valeur_variable){
@@ -118,7 +118,8 @@ function verifier_tout(){
 		setTimeout(function(){
 			alert("👏PENDU RESOLU👏 Il reste une dernière étape...")
     		stocker("class3",true)
-			aller_etape(2,true)
+    		enlever_accueil()
+    		aller_etape(2,true)	
 		}, 300)
 		
 	}else{

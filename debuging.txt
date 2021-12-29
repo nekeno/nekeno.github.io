@@ -1,0 +1,7 @@
+étape 4
+
+aller à l'étape 1,2,3,4
+1: explications -> stocker 1
+2: main menu -> stocker 2
+3: pendu -> stocker 3
+4: multi -> stocker 4
