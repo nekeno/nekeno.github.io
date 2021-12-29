@@ -262,7 +262,7 @@ function game_1(){
 }
 
 function game_2(){
-	alert("game 2")
+	gerer_enigme("Mini-jeu n°2","./mots/mots.html","mots", "Z")
 }
 
 

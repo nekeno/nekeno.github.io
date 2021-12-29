@@ -1,0 +1,58 @@
+@import url('https://fonts.googleapis.com/css?family=Poppins:300i&display=swap');
+
+* {
+    box-sizing: border-box;
+}  
+body {
+    font-family: 'Poppins', sans-serif;
+    justify-content: center;
+    text-align: center;
+    display: flex;
+}
+
+input {
+    margin-left: 1rem;
+    font-family: 'Poppins';
+}
+
+.container {  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+  grid-template-rows: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+  gap: 0px 0px;
+  grid-auto-flow: row;
+  grid-template-areas:
+    "my_area my_area my_area my_area my_area my_area my_area my_area my_area my_area my_area my_area my_area my_area my_area my_area"
+    "my_area my_area my_area my_area my_area my_area my_area my_area my_area my_area my_area my_area my_area my_area my_area my_area"
+    "my_area my_area my_area my_area my_area my_area my_area my_area my_area my_area my_area my_area my_area my_area my_area my_area"
+    "my_area my_area my_area my_area my_area my_area my_area my_area my_area my_area my_area my_area my_area my_area my_area my_area"
+    "my_area my_area my_area my_area my_area my_area my_area my_area my_area my_area my_area my_area my_area my_area my_area my_area"
+    "my_area my_area my_area my_area my_area my_area my_area my_area my_area my_area my_area my_area my_area my_area my_area my_area"
+    "my_area my_area my_area my_area my_area my_area my_area my_area my_area my_area my_area my_area my_area my_area my_area my_area"
+    "my_area my_area my_area my_area my_area my_area my_area my_area my_area my_area my_area my_area my_area my_area my_area my_area"
+    "my_area my_area my_area my_area my_area my_area my_area my_area my_area my_area my_area my_area my_area my_area my_area my_area"
+    "my_area my_area my_area my_area my_area my_area my_area my_area my_area my_area my_area my_area my_area my_area my_area my_area"
+    "my_area my_area my_area my_area my_area my_area my_area my_area my_area my_area my_area my_area my_area my_area my_area my_area";
+    width: 50%;
+}
+
+.container > span {
+	padding: 5px;
+}
+
+.entoure {	
+	border-style: solid;
+	background-color: white;
+}
+
+.correct {
+	background-color: #ade1ad;
+}
+
+.incorrect {
+	background-color: #e1adad;
+}
+
+
+.my_area { grid-area: my_area; }
+
+
