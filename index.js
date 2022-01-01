@@ -551,7 +551,7 @@ function alerte_si_clic_desac(){
 //aller à l'étape qu'il faut à l'ouverture
 function init(){
 
-	var inputDate = new Date("01/02/2022");
+	var inputDate = new Date("01/24/2022");
 	var todaysDate = new Date();
 
 	// c'est la bonne date
@@ -561,7 +561,7 @@ function init(){
 	//c'est pas la bonne date ET c'est le site en ligne
 	}else if(window.location.href.includes("nekeno")){
 		$("body").remove()
-		alert("❌ Ce n'est pas encore l'heure... ⌛")
+		alert("❌ Ce n'est pas encore l'heure... Un cadeau ça s'ouvre le jour de son anniversaire ⌛")
 		return false
 	}
 
