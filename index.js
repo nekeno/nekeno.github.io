@@ -551,7 +551,7 @@ function alerte_si_clic_desac(){
 //aller à l'étape qu'il faut à l'ouverture
 function init(){
 
-	var inputDate = new Date("01/24/2022");
+	var inputDate = new Date("01/24/2023");
 	var todaysDate = new Date();
 
 	// c'est la bonne date
